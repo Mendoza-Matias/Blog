@@ -1,11 +1,13 @@
-package com.mmendoza.blog.models;
+package com.mmendoza.blog.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -14,7 +16,6 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
 public class Tag {
 
@@ -27,6 +28,6 @@ public class Tag {
     private String name;
 
     @ManyToMany(mappedBy = "tags")
-    @JsonIgnore //ignoro el mapeo de este campo
+    @JsonIgnore // ignoro el mapeo de este campo
     private List<Post> posts;
 }
