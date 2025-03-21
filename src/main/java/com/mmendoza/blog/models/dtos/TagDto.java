@@ -1,4 +1,4 @@
-package com.mmendoza.blog.models.dto;
+package com.mmendoza.blog.models.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.mmendoza.blog.models;
+package com.mmendoza.blog.models.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
