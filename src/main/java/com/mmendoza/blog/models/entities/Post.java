@@ -6,15 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "posts")
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
 public class Post {
 
@@ -23,21 +24,23 @@ public class Post {
     @Column(name = "post_id")
     private Integer id;
 
-    @Column(length = 25, nullable = false)
     private String title;
 
-    @Column(length = 25, nullable = false)
     private String subtitle;
 
-    @Column(nullable = false)
     private String content;
 
-    @ManyToMany
-    private List<Tag> tags;
+    private LocalDate datePublished;
+
+    @ManyToMany //creo la tabla intermedia
+    @JoinTable(name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
 
     public void addTag(List<Tag> tags) {
-        if (this.tags == null) {
-            this.tags = new ArrayList<>(); //inicializo la lista de tags
+        if (tags == null) {
+            throw new IllegalArgumentException("tags cannot be null");
         }
         this.tags.addAll(tags);
     }

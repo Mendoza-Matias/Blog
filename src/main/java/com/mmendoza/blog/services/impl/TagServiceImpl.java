@@ -1,63 +1,87 @@
 package com.mmendoza.blog.services.impl;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.mmendoza.blog.models.exceptions.DuplicateNameException;
+import com.mmendoza.blog.models.exceptions.InvalidIdException;
+import com.mmendoza.blog.repositories.ITagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mmendoza.blog.models.entities.Tag;
 import com.mmendoza.blog.models.exceptions.InvalidNameException;
 import com.mmendoza.blog.models.exceptions.NotFoundException;
-import com.mmendoza.blog.repository.ITagRepository;
 import com.mmendoza.blog.services.ITagService;
 
-import io.micrometer.common.lang.NonNull;
 import io.micrometer.common.util.StringUtils;
 
 @Service
 public class TagServiceImpl implements ITagService {
 
+    private final ITagRepository repository;
+
     @Autowired
-    private ITagRepository tagRepository;
+    public TagServiceImpl(ITagRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<Tag> getAllTags() {
-        return tagRepository.findAll();
-    }
-
-    public Tag getTagById(Integer tagId) {
-        return tagRepository.findById(tagId)
-                .orElseThrow(() -> new NotFoundException("tag not found"));
+        return repository.findAll();
     }
 
     @Override
-    public void updateTag(@NonNull Integer tagId, @NonNull String name) {
-        verifyName(name);
-        tagRepository.updateTagName(tagId, name);
+    public Tag getTagById(Integer tagId) {
+        validateTagId(tagId);
+        return repository.findById(tagId)
+                .orElseThrow(() -> new NotFoundException("Tag with ID " + tagId + " not found"));
+    }
+
+    @Override
+    public void updateTag(Integer tagId, String name) {
+        validateTagId(tagId);
+        validateName(name);
+        checkIfNameExists(name);
+
+        if (!repository.existsById(tagId)) {
+            throw new NotFoundException("Tag with ID " + tagId + " not found");
+        }
+        repository.updateTagName(tagId, name);
     }
 
     @Override
     public void deleteTag(Integer tagId) {
-        if (!tagRepository.existsById(tagId)) {
-            throw new NotFoundException("tag not found");
+        validateTagId(tagId);
+        if (!repository.existsById(tagId)) {
+            throw new NotFoundException("Tag with ID " + tagId + " not found");
         }
-        tagRepository.deleteById(tagId);
+        repository.deleteById(tagId);
     }
 
     @Override
-    public void createTag(@NonNull String name) {
-        verifyName(name);
-        tagRepository.save(Tag.builder().name(name).build());
+    public void createTag(String name) {
+        validateName(name);
+        checkIfNameExists(name);
+        repository.save(Tag.builder().name(name).build());
     }
 
-    /* verificaciones para el nombre */
-    private void verifyName(String name) {
-        if (StringUtils.isEmpty(name)) {
-            throw new InvalidNameException("name is empty");
+    /* validaciones*/
+
+    private void validateTagId(Integer tagId) {
+        if (tagId == null || tagId <= 0) {
+            throw new InvalidIdException("ID must be a positive integer and cannot be null");
         }
-        if (tagRepository.existsByName(name)) {
-            throw new InvalidNameException("name already exists");
+    }
+
+    private void validateName(String name) {
+        if (StringUtils.isEmpty(name)) {
+            throw new InvalidNameException("Name cannot be empty");
+        }
+    }
+
+    private void checkIfNameExists(String name) {
+        if (repository.existsByName(name)) {
+            throw new DuplicateNameException("Tag with name '" + name + "' already exists");
         }
     }
 }
