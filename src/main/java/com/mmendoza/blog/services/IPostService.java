@@ -10,15 +10,15 @@ public interface IPostService {
 
     Post getPostById(Integer postId);
 
-    List<Post> getAllPostsWithTag(List<Integer> tagIds);
+    List<Post> getPostsByTagIds(List<Integer> tagIds);
 
-    List<Post> getPostByTitle(String title)
+    List<Post> getPostsByTitle(String title);
 
-    List<Post> getAllPostsOrderedByDate(String order); //asc - desc
+    List<Post> getPostsSortedByDate(String order);
 
-    void createPost(String name);
+    void createPost(String title);
 
-    void updatePost(Integer postId);
+    void updatePostById(Integer postId);
 
-    void deletePost(Integer postId);
+    void deletePostById(Integer postId);
 }

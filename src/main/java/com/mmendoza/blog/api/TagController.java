@@ -2,8 +2,11 @@ package com.mmendoza.blog.api;
 
 import java.util.List;
 
+import com.mmendoza.blog.mappers.impl.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,35 +25,36 @@ import com.mmendoza.blog.services.ITagService;
 public class TagController {
 
     @Autowired
-    private ITagService tagService;
+    private ITagService service;
+
+    @Autowired
+    private TagMapper mapper;
 
     @GetMapping
     public ResponseEntity<List<TagDto>> getAllTags() {
-        List<Tag> response = tagService.getAllTags();
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(mapper.toDtoList(service.getAllTags()));
     }
 
     @GetMapping("/{tagId}")
     public ResponseEntity<TagDto> getTagById(@PathVariable(name = "tagId") Integer tagId) {
-        Tag response = tagService.getTagById(tagId);
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(mapper.toDto(service.getTagById(tagId)));
     }
 
     @PutMapping("/{tagId}")
-    public ResponseEntity<Void> updateTag(@PathVariable(name = "tagId") Integer tagId, TagDto tag) {
-        tagService.updateTag(tagId, tag.getName());
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<Void> updateTag(@PathVariable(name = "tagId") Integer tagId, @RequestBody TagDto tag) {
+        service.updateTag(tagId, tag.getName());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content
     }
 
     @DeleteMapping("/{tagId}")
     public ResponseEntity<Void> deleteTag(@PathVariable(name = "tagId") Integer tagId) {
-        tagService.deleteTag(tagId);
-        return ResponseEntity.ok().body(null);
+        service.deleteTag(tagId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content
     }
 
     @PostMapping()
-    public ResponseEntity<Void> createTag(@RequestBody TagDto tag) {
-        tagService.createTag(tag.getName());
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<Void> createTag(@Validated @RequestBody TagDto tag) {
+        service.createTag(tag.getName());
+        return ResponseEntity.status(HttpStatus.CREATED).build(); // 201 Created
     }
 }
