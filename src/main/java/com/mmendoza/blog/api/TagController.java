@@ -43,13 +43,13 @@ public class TagController {
     @PutMapping("/{tagId}")
     public ResponseEntity<Void> updateTag(@PathVariable(name = "tagId") Integer tagId, @RequestBody TagDto tag) {
         service.updateTag(tagId, tag.getName());
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/{tagId}")
     public ResponseEntity<Void> deleteTag(@PathVariable(name = "tagId") Integer tagId) {
         service.deleteTag(tagId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PostMapping()
