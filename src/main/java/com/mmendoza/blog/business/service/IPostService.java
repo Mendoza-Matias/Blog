@@ -9,9 +9,9 @@ public interface IPostService {
 
     List<Post> getAllPosts();
 
-    Post getPostById(UUID postId);
+    Post getPostById(Integer postId);
 
-    List<Post> getPostsByTagIds(List<UUID> tagIds);
+    List<Post> getPostsByTagIds(List<Integer> tagIds);
 
     List<Post> searchPostsByText(String text);
 
@@ -19,9 +19,9 @@ public interface IPostService {
 
     void createPost(Post post);
 
-    void addTagToPost(UUID postId, List<UUID> tagIds);
+    void addTagToPost(Integer postId, List<Integer> tagIds);
 
-    void removeTagsFromPost(UUID postId, List<UUID> tagIds);
+    void removeTagsFromPost(Integer postId, List<Integer> tagIds);
 
-    void deletePostById(UUID postId);
+    void deletePostById(Integer postId);
 }

@@ -31,13 +31,13 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public Post getPostById(UUID postId) {
+    public Post getPostById(Integer postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new NotFoundException("Post with ID" + postId + "not found"));
     }
 
     @Override
-    public List<Post> getPostsByTagIds(List<UUID> tagIds) {
+    public List<Post> getPostsByTagIds(List<Integer> tagIds) {
         return postRepository.getPostsByTagIds(tagIds);
     }
 
@@ -73,7 +73,7 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public void addTagToPost(UUID postId, List<UUID> tagIds) {
+    public void addTagToPost(Integer postId, List<Integer> tagIds) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new NotFoundException("Tag with ID" + postId + "not found"));
 
@@ -94,7 +94,7 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public void removeTagsFromPost(UUID postId, List<UUID> tagIds) {
+    public void removeTagsFromPost(Integer postId, List<Integer> tagIds) {
         validPostId(postId);
         validateTagIds(tagIds);
 
@@ -116,14 +116,14 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public void deletePostById(UUID postId) {
+    public void deletePostById(Integer postId) {
         validPostId(postId);
         postRepository.deleteById(postId);
     }
 
     //Validación de id
-    private void validPostId(UUID postId) {
-        if (postId == null) {
+    private void validPostId(Integer postId) {
+        if (postId == null || postId <= 0) {
             throw new InvalidIdException("Post ID cannot be null");
         }
     }
@@ -145,7 +145,7 @@ public class PostServiceImpl implements IPostService {
     }
 
     //validacion de tagIds
-    private void validateTagIds(List<UUID> tagIds) {
+    private void validateTagIds(List<Integer> tagIds) {
         if (tagIds == null || tagIds.isEmpty()) {
             throw new InvalidFieldException("Tags cannot be null or empty");
         }

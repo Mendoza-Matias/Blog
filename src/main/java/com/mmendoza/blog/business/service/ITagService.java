@@ -9,11 +9,11 @@ public interface ITagService {
 
     List<Tag> getAllTags();
 
-    Tag getTagById(UUID tagId);
+    Tag getTagById(Integer tagId);
 
     void createTag(String name);
 
-    void updateTag(UUID tagId, String name);
+    void updateTag(Integer tagId, String name);
 
-    void deleteTag(UUID tagId);
+    void deleteTag(Integer tagId);
 }

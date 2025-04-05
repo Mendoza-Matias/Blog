@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class TagServiceImpl implements ITagService {
@@ -29,29 +28,28 @@ public class TagServiceImpl implements ITagService {
     }
 
     @Override
-    public Tag getTagById(UUID tagId) {
+    public Tag getTagById(Integer tagId) {
         validateTagId(tagId);
-        return repository.findById(tagId)
-                .orElseThrow(() -> new NotFoundException("Tag with ID " + tagId + " not found"));
+        return repository.findById(tagId).orElseThrow(() -> new NotFoundException("Tag not found"));
     }
 
     @Override
-    public void updateTag(UUID tagId, String name) {
+    public void updateTag(Integer tagId, String name) {
         validateTagId(tagId);
         validateName(name);
         checkIfNameExists(name);
 
         if (!repository.existsById(tagId)) {
-            throw new NotFoundException("Tag with ID " + tagId + " not found");
+            throw new NotFoundException("Tag not found");
         }
         repository.updateTagName(tagId, name);
     }
 
     @Override
-    public void deleteTag(UUID tagId) {
+    public void deleteTag(Integer tagId) {
         validateTagId(tagId);
         if (!repository.existsById(tagId)) {
-            throw new NotFoundException("Tag with ID " + tagId + " not found");
+            throw new NotFoundException("Tag not found");
         }
         repository.deleteById(tagId);
     }
@@ -63,10 +61,8 @@ public class TagServiceImpl implements ITagService {
         repository.save(Tag.builder().name(name).build());
     }
 
-    /* validaciones*/
-
-    private void validateTagId(UUID tagId) {
-        if (tagId == null) {
+    private void validateTagId(Integer tagId) {
+        if (tagId == null || tagId <= 0) {
             throw new InvalidIdException("ID must be a positive integer and cannot be null");
         }
     }
@@ -79,7 +75,7 @@ public class TagServiceImpl implements ITagService {
 
     private void checkIfNameExists(String name) {
         if (repository.existsByName(name)) {
-            throw new ExistingEntityException("Tag with name '" + name + "' already exists");
+            throw new ExistingEntityException("Tag with name already exists");
         }
     }
 }
