@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "blog"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/blog_dev
+    username: postgres
+    password: 805729
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 9091
