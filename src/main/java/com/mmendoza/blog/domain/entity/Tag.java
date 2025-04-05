@@ -10,15 +10,16 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tags")
-@Getter
-@Builder
-@NoArgsConstructor
+
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Tag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(unique = true, nullable = false, length = 25)
     private String name;
