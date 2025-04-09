@@ -10,6 +10,6 @@ spring:
       ddl-auto: update
     show-sql: true
 server:
-  port: 9091
+  port: ${SERVER_PORT}
   servlet:
     context-path: "/api/v1"
