@@ -1,10 +1,9 @@
 package com.mmendoza.blog.presentation.controller;
 
 import com.mmendoza.blog.business.service.IPostService;
-import com.mmendoza.blog.domain.dto.AddTagToPostDto;
 import com.mmendoza.blog.domain.dto.BasicInformationOfPostDto;
 import com.mmendoza.blog.domain.dto.PostDto;
-import com.mmendoza.blog.domain.dto.RemoveTagsDto;
+import com.mmendoza.blog.domain.dto.PostTagsDto;
 import com.mmendoza.blog.mappers.IPostMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +49,12 @@ public class PostController {
     }
 
     @PostMapping("/tags")
-    public ResponseEntity<Void> addTagsToPost(@RequestBody AddTagToPostDto request) {
+    public ResponseEntity<Void> addTagsToPost(@RequestBody PostTagsDto request) {
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/tags")
-    public ResponseEntity<Void> removeTagsFromPost(@RequestBody RemoveTagsDto request) {
+    public ResponseEntity<Void> removeTagsFromPost(@RequestBody PostTagsDto request) {
         return ResponseEntity.ok().build();
     }
 
