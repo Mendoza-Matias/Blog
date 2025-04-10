@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddTagToPostDto {
+public class PostTagsDto {
     private Integer postId;
     private List<Integer> tagIds;
 }
