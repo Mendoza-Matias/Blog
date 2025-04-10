@@ -6,17 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostDto {
+public class BasicInformationOfPostDto {
     private Integer id;
     private String title;
     private String subtitle;
-    private String content;
     private LocalDate datePublished;
-    private List<TagDto> tags;
 }
