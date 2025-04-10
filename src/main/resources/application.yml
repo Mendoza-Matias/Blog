@@ -1,15 +1,22 @@
 spring:
   application:
-    name: "blog"
+    name: blog
   datasource:
-    url: jdbc:postgresql://localhost:5432/blog_dev
-    username: postgres
-    password: 805729
+    url: jdbc:postgresql://${HOST}:${DB_PORT}/${DB_NAME}
+    username: ${USERNAME}
+    password: ${PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+  profiles:
+    active: ${PROFILE}
 server:
-  port: 9091
+  port: ${SERVER_PORT}
   servlet:
-    context-path: "/api/v1"
+    context-path: /api/v1
+springdoc:
+  api-docs:
+    path: /api-json
+  swagger-ui:
+    path: /api-docs
