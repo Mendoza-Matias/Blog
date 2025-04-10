@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: prod
+
+  datasource:
+    url: jdbc:postgresql://${HOST}:${DB_PORT}/${DB_NAME}
+    username: ${USERNAME}
+    password: ${PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

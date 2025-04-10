@@ -1,20 +1,12 @@
 spring:
-  application:
-    name: blog
-  datasource:
-    url: jdbc:postgresql://${HOST}:${DB_PORT}/${DB_NAME}
-    username: ${USERNAME}
-    password: ${PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
   profiles:
-    active: ${PROFILE}
+    active: ${PROFILE:dev} # perfil activo, por defecto "dev"
+
 server:
-  port: ${SERVER_PORT}
+  port: ${SERVER_PORT:8080} # puerto por defecto 8080
   servlet:
-    context-path: /api/v1
+    context-path: /api/v1 # ruta base
+
 springdoc:
   api-docs:
     path: /api-json
